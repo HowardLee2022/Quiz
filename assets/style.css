@@ -26,27 +26,32 @@ main{
 }
 
 .row{
-    width: 80%;
+    margin:10px;
+    width: 100%;
     display:flex;
     justify-content: center;
     flex-wrap: wrap;
 }
 
 .box{
-    margin:20px;
-    width: 600px;
+    padding:10px;
+    margin:10px;
+    width: 800px;
     height:200px;
     position: relative;
     flex: 1 ;
-    background-color: yellow;
+    background-color: salmon;
     display:flex;
     justify-content: center;
     align-items: center;
+    font-size: 30px;
+    border-radius: 25px;
 }
 
 .text{
     display: flex;
     justify-content: center;
+   
     /* align-items: center; */
 }
 
@@ -55,12 +60,15 @@ main button{
     height: 200px;
     background-color: salmon;
     border-style: none;
+    font-size: 30px;
+    border-radius: 25px;
 }
 
 
 footer{
     min-height: 10vh;
 }
+
 
 /* main section h3, main section h2{
     padding:10px;
