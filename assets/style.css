@@ -30,6 +30,10 @@ main{
 
 }
 
+main li{
+    display: flex;
+    flex-flow: wrap column;
+}
 .row{
     margin:10px;
     width: 100%;
@@ -58,7 +62,7 @@ main{
     justify-content: center;
 }
 
-main button{
+.button1{
     width: 200px;
     height: 200px;
     background-color: salmon;
@@ -68,6 +72,13 @@ main button{
 }
 
 
+.button2{
+    width:100px;
+    height:30px;
+    background-color:salmon;
+    font-size:20px;
+}
+
 footer{
     padding: 20px;
     font-size:30px;
@@ -76,4 +87,16 @@ footer{
     align-items: center;
    min-height: 10vh;
    background: salmon;
+}
+
+.input1{
+    width: 300px;
+    height: 50x;
+    font-size:20px;
+
+}
+
+form{
+    display:none;
+    align-items: center;
 }

@@ -8,7 +8,11 @@ var startButton = document.querySelector("#startbtn");
 var container = document.querySelector(".container");
 var score1= document.getElementById('Score');
 var indicator=document.getElementById('indicator');
-
+var highButton = document.getElementById('highscore');
+var form = document.getElementById('form');
+var inputVal = document.getElementById('get-value');
+var submButton= document.getElementById('submitbutton');
+var mainE1= document.querySelector("main");
 
 var score=0;
 var Timeleft=100;
@@ -39,6 +43,8 @@ var answerList=[[2,4,5,6],
 var correctList=[0,2,1,0,3,1,0,2,2,0,2,2];
 
 
+
+
 //Starts a Timer 
 function setTime()
 {
@@ -58,11 +64,8 @@ var count = 0;
 
 //Change Text to Display Gameover
 function gameOver(){
-    question.textContent= "Game Over";
-    answer1.textContent="";
-    answer2.textContent="";
-    answer3.textContent="";
-    answer4.textContent="";
+    container.style.display="none";
+    form.style.display="inline";
 }
 
 // Checks to see if the select answer is right or wrong and Add to score if correct and subtract time if incorrect
@@ -113,7 +116,7 @@ function clickStart(event){
 }
 
 // Adds the flex box and changes to first question
-function startquiz(){
+function startquiz(){ 
     question.classList.add("box");
     answer1.classList.add("box");
     answer2.classList.add("box");
@@ -132,3 +135,81 @@ function startquiz(){
 startButton.addEventListener("click", clickStart);
 
 
+
+highButton.addEventListener("click", showHighscore);
+
+var highbool = false
+
+function showHighscore(){
+    
+    if(!highbool){
+    form.style.display="none";
+    container.style.display="none";
+    startButton.style.display="none";
+    highbool=true;
+
+
+    // for(i=0;i<array.length; i++){
+    //     var li = document.createElement("li");
+    //     li.textContent=("Name: "+(array[0].Name));
+    //     mainE1.appendChild(li);
+    // }
+
+        }else{
+        container.style.display="inline";
+        startButton.style.display="inline";
+        highbool=false;
+    }
+}
+
+submButton.addEventListener('click', submitbutton);
+
+function submitbutton(){
+    var saveScore = {
+        Name: inputVal.value,
+        scoreCount: score
+    }
+    finalList.push(saveScore);
+    inputVal.value="";
+    count=1;
+    container.style.display="inline";
+    form.style.display="none";
+    startquiz();
+};
+
+
+
+
+
+
+var finalList=[];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var highScoreList = 
+//     { Name:"Howard",
+//      Score:1 }
+
+// var array= [];
+
+// array.push(highScoreList);
+// array.push(highScoreList);
+// array.push(highScoreList);
+// console.log(array[0].Score);
