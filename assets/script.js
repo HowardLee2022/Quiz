@@ -15,7 +15,11 @@ var submButton= document.getElementById('submitbutton');
 var highscoreDisplay= document.getElementById('highscore-display');
 var mainE1=document.querySelector("main");
 
-var finalList=[];
+
+var getFinalList = localStorage.getItem("highscore");
+var parFinalList = JSON.parse((getFinalList)) || [];
+var finalList = parFinalList;
+// var finalList=[];
 var score=0;
 var Timeleft=100;
 // var clickBtn ="";
@@ -52,11 +56,57 @@ var correctList=[0,2,1,0,3,1,0,2,2,0,2,2];
 
 
 
-//Change Text to Display Gameover
-function gameOver(){
-    container.style.display="none";
-    form.style.display="inline";
-    Timeleft=0;
+
+//When button is pressed it removes the button and calls the startquiz function
+function clickStart(event){
+    startButton.parentNode.removeChild(startButton);
+    var timerInterval = setInterval(function(){
+        if(Timeleft < 0){
+            timer.textContent = "Time: 0";
+            clearInterval(timerInterval);
+            if(container.style.display==="inline");
+                gameOver();
+            }else{timer.textContent = "Time: " + Timeleft;}
+        Timeleft--;  
+    }, 1000);
+    startquiz();
+}
+
+// Adds the flex box and changes to first question
+function startquiz(){ 
+    Timeleft=100;
+    highbool=false;
+    question.classList.add("box");
+    answer1.classList.add("box");
+    answer2.classList.add("box");
+    answer3.classList.add("box");
+    answer4.classList.add("box");
+    question.textContent= questionList[0];
+    answer1.textContent=answerList[0][0];
+    answer2.textContent=answerList[0][1];
+    answer3.textContent=answerList[0][2];
+    answer4.textContent=answerList[0][3];
+    count=0;
+    if(container.style.display==="none"){
+        container.style.display="inline";
+        highscoreDisplay.textContent="";
+        mainE1.removeChild(createButton);
+    }
+    container.addEventListener("click", questions);
+}
+
+
+//Changes the question to the next
+function changeQuestion(){
+    if(count>=questionList.length){
+        gameOver();
+    }else{
+        question.textContent= questionList[count];
+        answer1.textContent=answerList[count][0];
+        answer2.textContent=answerList[count][1];
+        answer3.textContent=answerList[count][2];
+        answer4.textContent=answerList[count][3]; 
+    }
 }
 
 // Checks to see if the select answer is right or wrong and Add to score if correct and subtract time if incorrect
@@ -80,60 +130,22 @@ function questions(event){
         }
 }
 
-//Changes the question to the next
-function changeQuestion(){
-    if(count>=questionList.length){
-        gameOver();
-    }else{
-        question.textContent= questionList[count];
-        answer1.textContent=answerList[count][0];
-        answer2.textContent=answerList[count][1];
-        answer3.textContent=answerList[count][2];
-        answer4.textContent=answerList[count][3]; 
-    }
+
+//Change Text to Display Gameover
+function gameOver(){
+    container.style.display="none";
+    form.style.display="inline";
+    Timeleft=0;
 }
 
-//When button is pressed it removes the button and calls the startquiz function
-function clickStart(event){
-    startButton.parentNode.removeChild(startButton);
-    var timerInterval = setInterval(function(){
-        if(Timeleft < 0){
-            timer.textContent = "Time: 0";
-            clearInterval(timerInterval);
-            if(container.style.display==="inline");
-                gameOver();
-            }else{timer.textContent = "Time: " + Timeleft;}
-        Timeleft--;  
-    }, 1000);
-    startquiz();
-}
-
-// Adds the flex box and changes to first question
-function startquiz(){ 
-    question.classList.add("box");
-    answer1.classList.add("box");
-    answer2.classList.add("box");
-    answer3.classList.add("box");
-    answer4.classList.add("box");
-    question.textContent= questionList[0];
-    answer1.textContent=answerList[0][0];
-    answer2.textContent=answerList[0][1];
-    answer3.textContent=answerList[0][2];
-    answer4.textContent=answerList[0][3];
-    count=0;
-    if(container.style.display==="none"){
-        container.style.display="inline";
-        highscoreDisplay.textContent="";
-        mainE1.removeChild(createButton);
-    }
-    container.addEventListener("click", questions);
-}
 
 var highbool = false
-
+//creats a button but doesnt append it yet.
 var createButton=document.createElement("Button");
 // show high score
+
 function showHighscore(){
+  
     highscoreDisplay.textContent="";
     // var createButton=document.createElement("Button");
     createButton.setAttribute("class","button2");
@@ -154,7 +166,6 @@ function showHighscore(){
     }else if(count>=questionList.length){
         container.style.display="none";
         startButton.style.display="inline";
-      
         highbool=false;
         mainE1.removeChild(createButton);
     
@@ -167,13 +178,22 @@ function showHighscore(){
     }
 }
 
+// var getFinalList = localStorage.getItem("highscore");
+// var parFinalList = JSON.parse(getFinalList);
+
 // Submit highscore
+
+
+
 function submitbutton(){
     var saveScore = {
         Name: inputVal.value,
         scoreCount: score
     }
+    // if(finalList==null)
     finalList.push(saveScore);
+    var finalList2 = JSON.stringify(finalList);
+    localStorage.setItem("highscore",finalList2);
     inputVal.value="";
     container.style.display="inline";
     form.style.display="none";
