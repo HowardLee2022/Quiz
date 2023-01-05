@@ -12,10 +12,16 @@ var highButton = document.getElementById('highscore');
 var form = document.getElementById('form');
 var inputVal = document.getElementById('get-value');
 var submButton= document.getElementById('submitbutton');
-var mainE1= document.querySelector("main");
+var highscoreDisplay= document.getElementById('highscore-display');
+var mainE1=document.querySelector("main");
 
+var finalList=[];
 var score=0;
 var Timeleft=100;
+// var clickBtn ="";
+var count = 0;
+
+
 var questionList=["1+1",
                 "What is my name?",
                 "3+3",
@@ -45,27 +51,12 @@ var correctList=[0,2,1,0,3,1,0,2,2,0,2,2];
 
 
 
-//Starts a Timer 
-function setTime()
-{
-    var timerInterval = setInterval(function(){
-        Timeleft--;
-        timer.textContent = "Time: " + Timeleft;
-        if(Timeleft <= 0){
-            clearInterval(timerInterval);
-           gameOver();
-        }
-    }, 1000);
-}
-
-var clickBtn ="";
-var count = 0;
-
 
 //Change Text to Display Gameover
 function gameOver(){
     container.style.display="none";
     form.style.display="inline";
+    Timeleft=0;
 }
 
 // Checks to see if the select answer is right or wrong and Add to score if correct and subtract time if incorrect
@@ -75,28 +66,23 @@ function questions(event){
         if(clickBtn==null){
             return;
         }else if(clickBtn==correctList[count]){
-            console.log("correct");
             count++
             score++;
             score1.textContent=score;
             indicator.textContent="correct";
-            console.log(count);
             changeQuestion();
             
         }else{
             Timeleft= Timeleft - 10;
-            console.log("wrong");
             count++
             indicator.textContent="Wrong"
             changeQuestion(); 
         }
-    }
-
+}
 
 //Changes the question to the next
 function changeQuestion(){
     if(count>=questionList.length){
-        console.log("end");
         gameOver();
     }else{
         question.textContent= questionList[count];
@@ -107,11 +93,18 @@ function changeQuestion(){
     }
 }
 
-
 //When button is pressed it removes the button and calls the startquiz function
 function clickStart(event){
     startButton.parentNode.removeChild(startButton);
-    setTime();
+    var timerInterval = setInterval(function(){
+        if(Timeleft < 0){
+            timer.textContent = "Time: 0";
+            clearInterval(timerInterval);
+            if(container.style.display==="inline");
+                gameOver();
+            }else{timer.textContent = "Time: " + Timeleft;}
+        Timeleft--;  
+    }, 1000);
     startquiz();
 }
 
@@ -127,43 +120,54 @@ function startquiz(){
     answer2.textContent=answerList[0][1];
     answer3.textContent=answerList[0][2];
     answer4.textContent=answerList[0][3];
+    count=0;
+    if(container.style.display==="none"){
+        container.style.display="inline";
+        highscoreDisplay.textContent="";
+        mainE1.removeChild(createButton);
+    }
     container.addEventListener("click", questions);
 }
 
-
-//event listener for the start button
-startButton.addEventListener("click", clickStart);
-
-
-
-highButton.addEventListener("click", showHighscore);
-
 var highbool = false
 
+var createButton=document.createElement("Button");
+// show high score
 function showHighscore(){
-    
+    highscoreDisplay.textContent="";
+    // var createButton=document.createElement("Button");
+    createButton.setAttribute("class","button2");
+    createButton.textContent="restart";
+    mainE1.appendChild(createButton);
+
+    // createButton.addEventListener('click', startquiz());
     if(!highbool){
-    form.style.display="none";
-    container.style.display="none";
-    startButton.style.display="none";
-    highbool=true;
-
-
-    // for(i=0;i<array.length; i++){
-    //     var li = document.createElement("li");
-    //     li.textContent=("Name: "+(array[0].Name));
-    //     mainE1.appendChild(li);
-    // }
-
-        }else{
+        form.style.display="none";
+        container.style.display="none";
+        startButton.style.display="none";
+        highbool=true;
+        for(i=0;i<finalList.length; i++){
+        var li = document.createElement("li");
+        li.textContent=((finalList[i].Name)+": \xa0\xa0\xa0\xa0"+(finalList[i].scoreCount));
+        highscoreDisplay.appendChild(li);
+        }
+    }else if(count>=questionList.length){
+        container.style.display="none";
+        startButton.style.display="inline";
+      
+        highbool=false;
+        mainE1.removeChild(createButton);
+    
+    }else{
         container.style.display="inline";
         startButton.style.display="inline";
+     
         highbool=false;
+        mainE1.removeChild(createButton);
     }
 }
 
-submButton.addEventListener('click', submitbutton);
-
+// Submit highscore
 function submitbutton(){
     var saveScore = {
         Name: inputVal.value,
@@ -171,10 +175,9 @@ function submitbutton(){
     }
     finalList.push(saveScore);
     inputVal.value="";
-    count=1;
     container.style.display="inline";
     form.style.display="none";
-    startquiz();
+    showHighscore();
 };
 
 
@@ -182,7 +185,20 @@ function submitbutton(){
 
 
 
-var finalList=[];
+
+
+submButton.addEventListener('click', submitbutton);
+
+
+
+highButton.addEventListener("click", showHighscore);
+
+
+
+//event listener for the start button
+startButton.addEventListener("click", clickStart);
+
+createButton.addEventListener("click", startquiz);
 
 
 
@@ -194,22 +210,3 @@ var finalList=[];
 
 
 
-
-
-
-
-
-
-
-
-
-// var highScoreList = 
-//     { Name:"Howard",
-//      Score:1 }
-
-// var array= [];
-
-// array.push(highScoreList);
-// array.push(highScoreList);
-// array.push(highScoreList);
-// console.log(array[0].Score);
