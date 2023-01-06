@@ -65,6 +65,10 @@ li{
     border-radius: 25px;
 }
 
+.box:hover{
+    background-color: cornflowerblue;
+}
+
 .text{
     display: flex;
     justify-content: center;
@@ -79,12 +83,20 @@ li{
     border-radius: 25px;
 }
 
+.button1:hover{
+    background-color:cornflowerblue;
+}
+
 
 .button2{
     width:100px;
     height:30px;
     background-color:lightblue;
     font-size:20px;
+}
+
+.button2:hover{
+    background-color:cornflowerblue;
 }
 
 footer{
