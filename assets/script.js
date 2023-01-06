@@ -14,15 +14,12 @@ var inputVal = document.getElementById('get-value');
 var submButton= document.getElementById('submitbutton');
 var highscoreDisplay= document.getElementById('highscore-display');
 var mainE1=document.querySelector("main");
-
-
+var highbool = false
 var getFinalList = localStorage.getItem("highscore");
 var parFinalList = JSON.parse((getFinalList)) || [];
 var finalList = parFinalList;
-// var finalList=[];
 var score=0;
 var Timeleft=100;
-// var clickBtn ="";
 var count = 0;
 
 
@@ -54,27 +51,27 @@ var correctList=[0,2,1,0,3,1,0,2,2,0,2,2];
 
 
 
-
-
-
 //When button is pressed it removes the button and calls the startquiz function
-function clickStart(event){
+function clickStart(){
     startButton.parentNode.removeChild(startButton);
-    var timerInterval = setInterval(function(){
-        if(Timeleft < 0){
-            timer.textContent = "Time: 0";
-            clearInterval(timerInterval);
-            if(container.style.display==="inline");
-                gameOver();
-            }else{timer.textContent = "Time: " + Timeleft;}
-        Timeleft--;  
-    }, 1000);
     startquiz();
 }
 
 // Adds the flex box and changes to first question
 function startquiz(){ 
+    score=0;
+    score1.textContent=score;
     Timeleft=100;
+    clearInterval(timerInterval);
+    var timerInterval = setInterval(function(){
+        if(Timeleft < 0){
+            timer.textContent = "Time: 0";
+            clearInterval(timerInterval);
+            if(count<questionList.length);
+                gameOver();
+            }else{timer.textContent = "Time: " + Timeleft;}
+        Timeleft--;  
+    }, 500);
     highbool=false;
     question.classList.add("box");
     answer1.classList.add("box");
@@ -94,7 +91,6 @@ function startquiz(){
     }
     container.addEventListener("click", questions);
 }
-
 
 //Changes the question to the next
 function changeQuestion(){
@@ -130,7 +126,6 @@ function questions(event){
         }
 }
 
-
 //Change Text to Display Gameover
 function gameOver(){
     container.style.display="none";
@@ -138,12 +133,10 @@ function gameOver(){
     Timeleft=0;
 }
 
-
-var highbool = false
 //creats a button but doesnt append it yet.
 var createButton=document.createElement("Button");
-// show high score
 
+// show high score
 function showHighscore(){
   
     highscoreDisplay.textContent="";
@@ -178,13 +171,7 @@ function showHighscore(){
     }
 }
 
-// var getFinalList = localStorage.getItem("highscore");
-// var parFinalList = JSON.parse(getFinalList);
-
 // Submit highscore
-
-
-
 function submitbutton(){
     var saveScore = {
         Name: inputVal.value,
@@ -204,20 +191,13 @@ function submitbutton(){
 
 
 
-
-
-
+//event listener for submit button
 submButton.addEventListener('click', submitbutton);
-
-
-
+//event listener for highscore button
 highButton.addEventListener("click", showHighscore);
-
-
-
 //event listener for the start button
 startButton.addEventListener("click", clickStart);
-
+//event listener for restart button
 createButton.addEventListener("click", startquiz);
 
 
