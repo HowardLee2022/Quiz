@@ -17,6 +17,7 @@ Submit button will submit user input name into highscore list.
 Timer will start when quiz starts.
 
 
+[website](https://howardlee2022.github.io/Quiz-Homework/)
 
 ![Main](./assets/screenshots/Home%20Screen.jpg)
 ![Quiz](./assets/screenshots/Quiz.jpg)
